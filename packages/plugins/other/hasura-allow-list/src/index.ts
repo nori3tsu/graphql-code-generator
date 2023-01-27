@@ -32,7 +32,14 @@ function getOperationFragmentsRecursively(
 
   // note: we first get a list of required fragments names, then filter the original list.
   // this means order of fragments is preserved.
-  return fragmentDefinitions.filter(definition => requiredFragmentNames.has(definition.name.value));
+
+  // Fragmentsの生成順をtypescript-graphql-requestに合わせる
+  return Array.from(requiredFragmentNames.values()).map((pluginName) =>
+    fragmentDefinitions.find((definition) => definition.name.value == pluginName),
+  )
+
+  // 元のソース
+  // return fragmentDefinitions.filter(definition => requiredFragmentNames.has(definition.name.value));
 
   /**
    * Given a definition adds required fragments to requieredFragmentsNames, recursively.
